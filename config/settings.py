@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,10 +23,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%1c$wjm42t6t=wf@wy)fw9c)8=w2i@yx#7*)@5*gt(au_n1ks_'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Debug on locally, off in production (Vercel sets the VERCEL env var)
+DEBUG = os.environ.get('VERCEL') != '1'
 
-ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'pixelsandcodestudios.com',
+    '.pixelsandcodestudios.com',
+    '.vercel.app',
+    'localhost',
+    '127.0.0.1',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://pixelsandcodestudios.com',
+    'https://www.pixelsandcodestudios.com',
+    'https://*.vercel.app',
+]
 
 
 # Application definition
