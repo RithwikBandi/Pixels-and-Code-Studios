@@ -316,6 +316,85 @@
   background: #14110c;
   color: #f4f0e8;
 }
+
+/* ===== custom themed dropdown (JS-enhanced; native select stays for
+   submission and as the no-JS fallback) ===== */
+.select-shell { position: relative; }
+.select-shell .select-native {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.select-trigger {
+  font-family: var(--font-body);
+  font-size: 15px;
+  text-align: left;
+  color: var(--text);
+  background: var(--bg-2);
+  border: 1px solid var(--faint);
+  border-radius: 12px;
+  padding: 14px 44px 14px 16px;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.select-trigger.is-placeholder { color: rgba(244, 240, 232, 0.35); }
+.select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 154, 31, 0.15);
+}
+.select-trigger::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 12px; height: 8px;
+  transform: translateY(-50%);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23ffc42e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+  transition: transform 0.3s var(--ease);
+}
+.select-shell.is-open .select-trigger {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 154, 31, 0.15);
+}
+.select-shell.is-open .select-trigger::after { transform: translateY(-50%) rotate(180deg); }
+.select-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0; right: 0;
+  z-index: 50;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 154, 31, 0.35);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  max-height: 280px;
+  overflow-y: auto;
+  animation: select-pop 0.22s var(--ease);
+}
+@keyframes select-pop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.select-option {
+  padding: 11px 14px;
+  border-radius: 9px;
+  font-size: 14.5px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.select-option:hover { background: rgba(255, 154, 31, 0.12); color: var(--text); }
+.select-option.is-selected {
+  color: var(--bg);
+  background: var(--grad);
+  font-weight: 600;
+}
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {

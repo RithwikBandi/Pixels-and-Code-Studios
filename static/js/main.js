@@ -129,6 +129,93 @@
     });
   }
 
+  /* ---------- custom themed dropdowns (native popup can't be styled) ---- */
+  function enhanceSelect(select) {
+    var shell = document.createElement('div');
+    shell.className = 'select-shell';
+    select.parentNode.insertBefore(shell, select);
+    shell.appendChild(select);
+    select.classList.add('select-native'); // visually hidden, still submitted
+
+    var trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'select-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    var triggerLabel = document.createElement('span');
+    trigger.appendChild(triggerLabel);
+
+    var menu = document.createElement('ul');
+    menu.className = 'select-menu';
+    menu.setAttribute('role', 'listbox');
+    menu.hidden = true;
+
+    var options = [];
+    Array.prototype.forEach.call(select.options, function (opt, i) {
+      var li = document.createElement('li');
+      li.className = 'select-option';
+      li.setAttribute('role', 'option');
+      li.textContent = opt.textContent;
+      li.dataset.value = opt.value;
+      if (i === select.selectedIndex) li.classList.add('is-selected');
+      li.addEventListener('click', function () { choose(i); close(); trigger.focus(); });
+      menu.appendChild(li);
+      options.push(li);
+    });
+
+    shell.appendChild(trigger);
+    shell.appendChild(menu);
+
+    function sync() {
+      var current = select.options[select.selectedIndex];
+      triggerLabel.textContent = current ? current.textContent : '';
+      trigger.classList.toggle('is-placeholder', !select.value);
+      options.forEach(function (li, i) {
+        li.classList.toggle('is-selected', i === select.selectedIndex);
+      });
+    }
+    function choose(i) {
+      select.selectedIndex = i;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      sync();
+    }
+    function open() {
+      menu.hidden = false;
+      shell.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+    function close() {
+      menu.hidden = true;
+      shell.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('click', function () {
+      if (menu.hidden) open(); else close();
+    });
+    trigger.addEventListener('keydown', function (e) {
+      var idx = select.selectedIndex;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (menu.hidden) { open(); return; }
+        var next = idx + (e.key === 'ArrowDown' ? 1 : -1);
+        if (next >= 0 && next < options.length) choose(next);
+      } else if (e.key === 'Escape') {
+        close();
+      } else if ((e.key === 'Enter' || e.key === ' ') && !menu.hidden) {
+        e.preventDefault();
+        close();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!shell.contains(e.target)) close();
+    });
+
+    sync();
+  }
+  document.querySelectorAll('.form-field select').forEach(enhanceSelect);
+
   /* ---------- nav background (vanilla fallback + primary) ---------- */
   var navEl = document.getElementById('nav');
   function updateNavBg() {
