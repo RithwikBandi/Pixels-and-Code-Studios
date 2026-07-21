@@ -60,6 +60,29 @@ PROCESS = [
     {'num': '05', 'title': 'Grow', 'blurb': 'Iterate on data. Double down on what converts. Scale what works.'},
 ]
 
+TEAM = [
+    {'count': 14, 'role': 'Strategists', 'blurb': 'Positioning, brand and go-to-market'},
+    {'count': 22, 'role': 'Designers', 'blurb': 'Identity, product and motion design'},
+    {'count': 31, 'role': 'Engineers', 'blurb': 'Web, mobile and platform builds'},
+    {'count': 18, 'role': 'Editors & Motion', 'blurb': 'Edits, grades and sound design'},
+    {'count': 19, 'role': 'Growth & Sales', 'blurb': 'Paid, organic, outbound and CRM'},
+]
+
+TESTIMONIALS = [
+    {
+        'quote': 'They rebuilt our site and our funnel in six weeks. Inbound leads tripled the following quarter.',
+        'who': 'Founder, D2C skincare brand',
+    },
+    {
+        'quote': 'The only partner we’ve had that treats design, engineering and growth as one problem. It shows in the numbers.',
+        'who': 'CMO, fintech startup',
+    },
+    {
+        'quote': 'My channel’s entire look, cadence and monetization runs through their team. I just film.',
+        'who': 'Creator, 2M+ subscribers',
+    },
+]
+
 WORK = [
     {'title': 'Lumen SaaS Platform', 'tag': 'Web · Product', 'hue': 'a'},
     {'title': 'Forge Fitness App', 'tag': 'App · Brand', 'hue': 'b'},
@@ -74,4 +97,6 @@ def home(request):
         'stats': STATS,
         'process': PROCESS,
         'work': WORK,
+        'team': TEAM,
+        'testimonials': TESTIMONIALS,
     })

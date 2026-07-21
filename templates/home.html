@@ -3,6 +3,9 @@
 
 {% block content %}
 
+<!-- scroll progress -->
+<div class="progress-bar" aria-hidden="true"></div>
+
 <!-- ===== Preloader ===== -->
 <div class="preloader" id="preloader">
   <div class="preloader-mark">
@@ -18,25 +21,27 @@
     <span class="brand-name">Pixels <em>&amp;</em> Code</span>
   </a>
   <nav class="nav-links">
-    <a href="#services" data-cursor>Services</a>
-    <a href="#work" data-cursor>Work</a>
-    <a href="#process" data-cursor>Process</a>
+    <a href="#services" class="roll" data-cursor><span class="roll-inner"><span>Services</span><span>Services</span></span></a>
+    <a href="#work" class="roll" data-cursor><span class="roll-inner"><span>Work</span><span>Work</span></span></a>
+    <a href="#collective" class="roll" data-cursor><span class="roll-inner"><span>Studio</span><span>Studio</span></span></a>
+    <a href="#process" class="roll" data-cursor><span class="roll-inner"><span>Process</span><span>Process</span></span></a>
   </nav>
   <a href="#contact" class="btn btn-fill magnetic" data-cursor>Start a project</a>
 </header>
 
 <!-- ===== Hero ===== -->
 <section class="hero" id="hero">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
   <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
   <div class="hero-inner">
-    <p class="hero-kicker split-lines">Pixels &amp; Code Studios</p>
+    <p class="hero-kicker">Pixels &amp; Code Studios — full-service digital agency</p>
     <h1 class="hero-title">
       <span class="line split-chars">WE BUILD</span>
       <span class="line split-chars">BRANDS THAT</span>
       <span class="line split-chars grad">MOVE.</span>
     </h1>
     <div class="hero-foot">
-      <p class="hero-sub split-lines">Websites, apps, content, video and growth —<br>one studio, every pixel and every line of code.</p>
+      <p class="hero-sub">Websites, apps, content, video and growth —<br>one studio, every pixel and every line of code.</p>
       <a href="#work" class="btn btn-ghost magnetic" data-cursor>See our work <span class="arrow">&rarr;</span></a>
     </div>
   </div>
@@ -45,7 +50,7 @@
 
 <!-- ===== Marquee ===== -->
 <div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
+  <div class="marquee-track" data-marquee>
     <span>Websites <i>&#10022;</i> Apps <i>&#10022;</i> Content <i>&#10022;</i> Branding <i>&#10022;</i> Video <i>&#10022;</i> Leads <i>&#10022;</i> Marketing <i>&#10022;</i>&nbsp;</span>
     <span>Websites <i>&#10022;</i> Apps <i>&#10022;</i> Content <i>&#10022;</i> Branding <i>&#10022;</i> Video <i>&#10022;</i> Leads <i>&#10022;</i> Marketing <i>&#10022;</i>&nbsp;</span>
   </div>
@@ -83,6 +88,11 @@
   </div>
 </section>
 
+<!-- ===== Manifesto ===== -->
+<section class="manifesto" id="manifesto">
+  <p class="manifesto-text" id="manifestoText">We are not a vendor. We are the team behind the brand — designers, engineers, editors and growth operators under one roof, shipping work that looks expensive because it is crafted, and performs because it is engineered. You bring the ambition. We bring everything else.</p>
+</section>
+
 <!-- ===== Showreel ===== -->
 <section class="reel" id="reel">
   <div class="reel-inner" data-cursor data-cursor-label="Play">
@@ -104,6 +114,15 @@
   {% endfor %}
 </section>
 
+<!-- ===== Clients ===== -->
+<div class="clients" aria-hidden="true">
+  <p class="clients-label">Trusted by ambitious teams</p>
+  <div class="marquee-track clients-track" data-marquee>
+    <span class="cl c1">NORTHWIND</span><span class="cl c2">Aurelia</span><span class="cl c3">VANTA</span><span class="cl c4">bluepeak</span><span class="cl c5">KOJI&amp;CO</span><span class="cl c6">Meridian</span><span class="cl c7">SOLACE</span><span class="cl c8">Orbit Labs</span>
+    <span class="cl c1">NORTHWIND</span><span class="cl c2">Aurelia</span><span class="cl c3">VANTA</span><span class="cl c4">bluepeak</span><span class="cl c5">KOJI&amp;CO</span><span class="cl c6">Meridian</span><span class="cl c7">SOLACE</span><span class="cl c8">Orbit Labs</span>
+  </div>
+</div>
+
 <!-- ===== Work ===== -->
 <section class="work" id="work">
   <div class="section-head">
@@ -112,13 +131,48 @@
   </div>
   <div class="work-grid">
     {% for w in work %}
-    <a href="#contact" class="work-card" data-cursor data-cursor-label="View">
+    <a href="#contact" class="work-card tilt" data-cursor data-cursor-label="View">
       <div class="work-visual wv-{{ w.hue }}"><span class="work-mark">P<em>C</em></span></div>
       <div class="work-meta">
         <h3>{{ w.title }}</h3>
         <span>{{ w.tag }}</span>
       </div>
     </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== Collective ===== -->
+<section class="collective" id="collective">
+  <div class="section-head">
+    <p class="section-label reveal">The collective</p>
+    <h2 class="section-title reveal">100+ specialists.<br><span class="grad">Zero handoffs.</span></h2>
+  </div>
+  <div class="team-grid">
+    {% for t in team %}
+    <div class="team-card">
+      <span class="team-count"><span class="counter" data-target="{{ t.count }}">0</span></span>
+      <h3>{{ t.role }}</h3>
+      <p>{{ t.blurb }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== Testimonials ===== -->
+<section class="testimonials" id="testimonials">
+  <p class="section-label reveal">What partners say</p>
+  <div class="tst-stage">
+    {% for t in testimonials %}
+    <blockquote class="tst {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.counter0 }}">
+      <p class="tst-quote">&ldquo;{{ t.quote }}&rdquo;</p>
+      <footer class="tst-who">{{ t.who }}</footer>
+    </blockquote>
+    {% endfor %}
+  </div>
+  <div class="tst-dots" role="tablist">
+    {% for t in testimonials %}
+    <button class="tst-dot {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.counter0 }}" aria-label="Testimonial {{ forloop.counter }}"></button>
     {% endfor %}
   </div>
 </section>
@@ -159,21 +213,20 @@
 
 <!-- ===== Footer ===== -->
 <footer class="footer">
-  <div class="footer-marquee" aria-hidden="true">
-    <div class="marquee-track slow">
-      <span>Pixels &amp; Code Studios &mdash; </span>
-      <span>Pixels &amp; Code Studios &mdash; </span>
-      <span>Pixels &amp; Code Studios &mdash; </span>
-      <span>Pixels &amp; Code Studios &mdash; </span>
-    </div>
-  </div>
+  <div class="footer-giant" aria-hidden="true">PIXELS <em>&amp;</em> CODE</div>
   <div class="footer-bar">
-    <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
-    <p>&copy; 2026 Pixels &amp; Code Studios. All rights reserved.</p>
+    <div class="footer-left">
+      <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
+      <p>&copy; 2026 Pixels &amp; Code Studios.<br>All rights reserved.</p>
+    </div>
+    <div class="footer-status">
+      <span class="status-pill"><span class="status-dot"></span>Accepting new projects</span>
+      <span class="footer-time">Hyderabad&nbsp;&mdash;&nbsp;<span id="localTime">--:--</span> IST</span>
+    </div>
     <div class="footer-links">
-      <a href="#" data-cursor>Instagram</a>
-      <a href="#" data-cursor>YouTube</a>
-      <a href="#" data-cursor>LinkedIn</a>
+      <a href="#" class="roll" data-cursor><span class="roll-inner"><span>Instagram</span><span>Instagram</span></span></a>
+      <a href="#" class="roll" data-cursor><span class="roll-inner"><span>YouTube</span><span>YouTube</span></span></a>
+      <a href="#" class="roll" data-cursor><span class="roll-inner"><span>LinkedIn</span><span>LinkedIn</span></span></a>
     </div>
   </div>
 </footer>
