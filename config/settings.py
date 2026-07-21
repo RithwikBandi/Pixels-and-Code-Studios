@@ -154,6 +154,16 @@ STORAGES = {
     'staticfiles': {'BACKEND': _static_backend},
 }
 
+# Cache static assets for a year in production; hashed filenames make this safe.
+WHITENOISE_MAX_AGE = 31536000 if os.environ.get('VERCEL') == '1' else 0
+
+# Web3Forms access key for contact-form email notifications.
+# This key type is designed to be publishable, but env still wins.
+WEB3FORMS_ACCESS_KEY = os.environ.get(
+    'WEB3FORMS_ACCESS_KEY',
+    'bf0c7808-decb-46db-820e-5a3372304a00',
+)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

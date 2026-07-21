@@ -16,10 +16,10 @@ SERVICE_CHOICES = [
 
 BUDGET_CHOICES = [
     ('', 'Budget range'),
-    ('<1l', 'Under ₹1L'),
-    ('1-3l', '₹1L – ₹3L'),
-    ('3-10l', '₹3L – ₹10L'),
-    ('10l+', '₹10L+'),
+    ('<2k', 'Under $2,000'),
+    ('2-5k', '$2,000 to $5,000'),
+    ('5-15k', '$5,000 to $15,000'),
+    ('15k+', '$15,000+'),
 ]
 
 
@@ -34,7 +34,7 @@ class ContactForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'placeholder': 'Your name', 'autocomplete': 'name'}),
             'email': forms.EmailInput(attrs={'placeholder': 'you@company.com', 'autocomplete': 'email'}),
             'message': forms.Textarea(attrs={
-                'placeholder': 'Tell us about the project — goals, timeline, links…',
+                'placeholder': 'Tell us about the project: goals, timeline, links…',
                 'rows': 6,
             }),
         }
@@ -42,5 +42,5 @@ class ContactForm(forms.ModelForm):
     def clean_message(self):
         message = self.cleaned_data['message'].strip()
         if len(message) < 10:
-            raise forms.ValidationError('Tell us a little more — at least 10 characters.')
+            raise forms.ValidationError('Please add a bit more detail, at least 10 characters.')
         return message

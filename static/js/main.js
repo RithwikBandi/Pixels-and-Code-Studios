@@ -97,6 +97,38 @@
     });
   }
 
+  /* ---------- contact form -> Web3Forms email (client-side only API) --- */
+  var contactForm = document.querySelector('form.contact-form');
+  if (contactForm && contactForm.dataset.w3fKey) {
+    contactForm.addEventListener('submit', function () {
+      var fd = new FormData(contactForm);
+      var name = (fd.get('name') || '').toString().trim();
+      var email = (fd.get('email') || '').toString().trim();
+      var message = (fd.get('message') || '').toString().trim();
+      // mirror the server-side validation so invalid posts don't email
+      if (!name || message.length < 10 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
+      try {
+        // form-encoded body: no CORS preflight, per the Web3Forms client API
+        var payload = new FormData();
+        payload.append('access_key', contactForm.dataset.w3fKey);
+        payload.append('subject', 'New project inquiry: ' + name);
+        payload.append('from_name', 'Pixels & Code Studios website');
+        payload.append('name', name);
+        payload.append('email', email);
+        payload.append('service', (fd.get('service') || 'not specified').toString());
+        payload.append('budget', (fd.get('budget') || 'not specified').toString());
+        payload.append('message', message);
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: payload,
+          keepalive: true // survives the page navigating to the success state
+        }).catch(function () { /* email is best-effort; inquiry is saved server-side */ });
+      } catch (e) {
+        // email notification is best-effort; the inquiry is saved server-side
+      }
+    });
+  }
+
   /* ---------- nav background (vanilla fallback + primary) ---------- */
   var navEl = document.getElementById('nav');
   function updateNavBg() {

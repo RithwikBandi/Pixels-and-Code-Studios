@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static %}{# get_static_prefix builds per-service image paths #}
 
 {% block content %}
 
@@ -16,14 +16,14 @@
   <canvas id="heroCanvas" aria-hidden="true"></canvas>
   <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
   <div class="hero-inner">
-    <p class="hero-kicker">Pixels &amp; Code Studios — full-service digital agency</p>
+    <p class="hero-kicker">Pixels &amp; Code Studios · Full-service digital agency</p>
     <h1 class="hero-title">
       <span class="line split-chars">WE BUILD</span>
       <span class="line split-chars">BRANDS THAT</span>
       <span class="line split-chars grad">MOVE.</span>
     </h1>
     <div class="hero-foot">
-      <p class="hero-sub">Websites, apps, content, video and growth —<br>one studio, every pixel and every line of code.</p>
+      <p class="hero-sub">Websites, apps, content, video and growth.<br>One studio, every pixel and every line of code.</p>
       <a href="{% url 'core:work' %}" class="btn btn-ghost magnetic" data-cursor>See our work <span class="arrow">&rarr;</span></a>
     </div>
   </div>
@@ -61,7 +61,13 @@
       <div class="media-stack">
         {% for s in services %}
         <div class="media-card" data-index="{{ forloop.counter0 }}">
-          <div class="media-visual mv-{{ forloop.counter }}"><span>{{ s.num }}</span></div>
+          <div class="media-visual mv-{{ forloop.counter }}">
+            <picture>
+              <source srcset="{% get_static_prefix %}img/services/svc-{{ forloop.counter }}.webp" type="image/webp">
+              <img src="{% get_static_prefix %}img/services/svc-{{ forloop.counter }}.jpg" alt="" width="1000" height="700" loading="lazy">
+            </picture>
+            <span>{{ s.num }}</span>
+          </div>
           <p>{{ s.title }}</p>
         </div>
         {% endfor %}
@@ -72,7 +78,7 @@
 
 <!-- ===== Manifesto ===== -->
 <section class="manifesto" id="manifesto">
-  <p class="manifesto-text" id="manifestoText">We are not a vendor. We are the team behind the brand — designers, engineers, editors and growth operators under one roof, shipping work that looks expensive because it is crafted, and performs because it is engineered. You bring the ambition. We bring everything else.</p>
+  <p class="manifesto-text" id="manifestoText">We are not a vendor. We are the team behind the brand: designers, engineers, editors and growth operators under one roof, shipping work that looks expensive because it is crafted, and performs because it is engineered. You bring the ambition. We bring everything else.</p>
 </section>
 
 <!-- ===== Showreel ===== -->
@@ -147,8 +153,8 @@
 <!-- ===== Founders ===== -->
 <section class="founders" id="founders">
   <div class="section-head">
-    <p class="section-label reveal">The founders</p>
-    <h2 class="section-title reveal">Three founders.<br><span class="grad">One standard.</span></h2>
+    <p class="section-label reveal">Leadership</p>
+    <h2 class="section-title reveal">Three leaders.<br><span class="grad">One standard.</span></h2>
   </div>
   <div class="founders-grid">
     {% for f in founders %}

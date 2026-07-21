@@ -26,7 +26,8 @@ class PageTests(TestCase):
     def test_about_renders(self):
         res = self.client.get(reverse('core:about'))
         self.assertEqual(res.status_code, 200)
-        self.assertContains(res, 'Three founders.')
+        self.assertContains(res, 'Three leaders.')
+        self.assertContains(res, 'CTO · Chief Technology Officer')
 
     def test_contact_renders_form(self):
         res = self.client.get(reverse('core:contact'))
@@ -34,8 +35,12 @@ class PageTests(TestCase):
         self.assertContains(res, '<form', 1)
         self.assertContains(res, 'csrfmiddlewaretoken')
 
+    def test_contact_form_carries_web3forms_key(self):
+        res = self.client.get(reverse('core:contact'))
+        self.assertContains(res, 'data-w3f-key="bf0c7808-decb-46db-820e-5a3372304a00"')
+
     def test_counters_render_final_values_without_js(self):
-        """Stats must show real numbers in raw markup — never 0."""
+        """Stats must show real numbers in raw markup, never 0."""
         res = self.client.get(reverse('core:home'))
         self.assertContains(res, 'data-target="120">120</span>')
         self.assertContains(res, 'data-target="40">40</span>')
@@ -74,7 +79,7 @@ class ContactFormTests(TestCase):
             'name': 'Test Client',
             'email': 'client@example.com',
             'service': 'websites',
-            'budget': '1-3l',
+            'budget': '2-5k',
             'message': 'We need a new marketing site with a booking funnel.',
         }
         payload.update(overrides)

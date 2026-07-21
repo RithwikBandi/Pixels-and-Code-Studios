@@ -8,7 +8,7 @@ SERVICES = [
         'num': '01',
         'slug': 'websites',
         'title': 'Websites',
-        'blurb': 'High-performance sites engineered to convert — from landing pages to full platforms.',
+        'blurb': 'High-performance sites engineered to convert, from landing pages to full platforms.',
         'tag': 'Design · Develop · Deploy',
         'points': ['Conversion-first UX and copy', 'Custom design systems, no templates',
                    'Core Web Vitals in the green', 'SEO and analytics wired in from day one'],
@@ -78,7 +78,7 @@ STATS = [
 
 PROCESS = [
     {'num': '01', 'title': 'Discover', 'blurb': 'We dig into your brand, market and goals until we know them cold.'},
-    {'num': '02', 'title': 'Design', 'blurb': 'Identity, interfaces and content direction — crafted, not templated.'},
+    {'num': '02', 'title': 'Design', 'blurb': 'Identity, interfaces and content direction. Crafted, not templated.'},
     {'num': '03', 'title': 'Build', 'blurb': 'Sites, apps and content engines shipped on aggressive timelines.'},
     {'num': '04', 'title': 'Launch', 'blurb': 'Go-to-market with paid, organic and outbound firing together.'},
     {'num': '05', 'title': 'Grow', 'blurb': 'Iterate on data. Double down on what converts. Scale what works.'},
@@ -120,13 +120,13 @@ WORK = [
     },
     {
         'title': 'Creator Growth Engine', 'tag': 'Content · Video', 'hue': 'c',
-        'year': '2026', 'blurb': 'End-to-end content pipeline — scripting, edits, thumbnails, distribution.',
+        'year': '2026', 'blurb': 'End-to-end content pipeline: scripting, edits, thumbnails, distribution.',
         'result': '12M views across 6 months',
     },
     {
         'title': 'Atlas D2C Launch', 'tag': 'Marketing · Sales', 'hue': 'd',
         'year': '2025', 'blurb': 'Go-to-market: funnels, paid social and outbound for a premium D2C brand.',
-        'result': '₹1.8Cr revenue in first quarter',
+        'result': '$250K revenue in first quarter',
     },
     {
         'title': 'Meridian Clinic Network', 'tag': 'Web · Leads', 'hue': 'b',
@@ -140,7 +140,7 @@ WORK = [
     },
     {
         'title': 'Solace Podcast Studio', 'tag': 'Video · Content', 'hue': 'd',
-        'year': '2026', 'blurb': 'Podcast production system — filming, edits, clips and channel growth.',
+        'year': '2026', 'blurb': 'Podcast production system: filming, edits, clips and channel growth.',
         'result': '150K subscribers in a year',
     },
     {
@@ -150,25 +150,25 @@ WORK = [
     },
 ]
 
-# Founders — developer first, always.
+# Leadership. The CTO (developer) is listed first, always.
 FOUNDERS = [
     {
-        'role': 'Co-Founder · Engineering',
+        'role': 'CTO · Chief Technology Officer',
         'email': 'developer@pixelsandcodestudios.com',
         'img': 'img/founder-developer',
-        'blurb': 'Leads every build — websites, apps and platforms. If it ships, it went through him.',
+        'blurb': 'Leads every build: websites, apps and platforms. If it ships, it went through him.',
     },
     {
-        'role': 'Co-Founder · Content',
+        'role': 'CSO · Chief Strategy Officer',
         'email': 'content@pixelsandcodestudios.com',
         'img': 'img/founder-content',
-        'blurb': 'Owns strategy and content — the hooks, the calendars and the growth loops.',
+        'blurb': 'Owns strategy and content: the hooks, the calendars and the growth loops.',
     },
     {
-        'role': 'Co-Founder · Post-Production',
+        'role': 'CDO · Chief Digital Officer',
         'email': 'editor@pixelsandcodestudios.com',
         'img': 'img/founder-editor',
-        'blurb': 'Runs the edit suite — grades, sound and motion that make every frame land.',
+        'blurb': 'Runs the edit suite: grades, sound and motion that make every frame land.',
     },
 ]
 
@@ -176,12 +176,12 @@ VALUES = [
     {'num': '01', 'title': 'Craft over volume', 'blurb': 'Fewer clients, deeper work. We would rather ship one thing that moves the needle than ten that fill a slide.'},
     {'num': '02', 'title': 'One team, zero handoffs', 'blurb': 'Design, engineering and growth sit in the same room. Nothing gets lost between agencies.'},
     {'num': '03', 'title': 'Numbers or it didn’t happen', 'blurb': 'Every engagement has a metric attached. We report on it whether it flatters us or not.'},
-    {'num': '04', 'title': 'Speed is a feature', 'blurb': 'Aggressive timelines, weekly ships. Momentum compounds — for brands and for us.'},
+    {'num': '04', 'title': 'Speed is a feature', 'blurb': 'Aggressive timelines, weekly ships. Momentum compounds, for brands and for us.'},
 ]
 
 FAQS = [
     {'q': 'How fast can we start?', 'a': 'Discovery calls happen within the week. Most projects kick off within 2 weeks of signing.'},
-    {'q': 'What does an engagement cost?', 'a': 'Projects start under ₹1L for focused sprints and scale with scope. Tell us your budget — we will tell you what it buys.'},
+    {'q': 'What does an engagement cost?', 'a': 'Projects start under $2,000 for focused sprints and scale with scope. Tell us your budget and we will tell you what it buys.'},
     {'q': 'Do you work with international clients?', 'a': 'Yes. We are Hyderabad-based and async-friendly, with overlap hours for US and EU time zones.'},
-    {'q': 'Who will actually do the work?', 'a': 'The founders stay on every account. Specialists plug in per discipline — no outsourcing chains.'},
+    {'q': 'Who will actually do the work?', 'a': 'The leaders stay on every account. Specialists plug in per discipline, with no outsourcing chains.'},
 ]

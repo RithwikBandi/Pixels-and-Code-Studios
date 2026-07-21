@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
@@ -48,7 +49,7 @@ def contact(request):
             form.save()
             messages.success(
                 request,
-                'Got it — your inquiry is in. We reply within one business day.',
+                'Got it, your inquiry is in. We reply within one business day.',
             )
             return redirect('core:contact')
     else:
@@ -58,4 +59,7 @@ def contact(request):
         'form': form,
         'founders': data.FOUNDERS,
         'faqs': data.FAQS,
+        # Web3Forms only allows client-side submits on the free plan,
+        # so the browser sends the email notification (see main.js).
+        'web3forms_key': settings.WEB3FORMS_ACCESS_KEY,
     })

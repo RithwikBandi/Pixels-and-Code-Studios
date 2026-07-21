@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Contact — Pixels &amp; Code Studios{% endblock %}
-{% block description %}Start a project with Pixels & Code Studios — tell us what you are building and we reply within one business day.{% endblock %}
+{% block title %}Contact | Pixels &amp; Code Studios{% endblock %}
+{% block description %}Start a project with Pixels & Code Studios. Tell us what you are building and we reply within one business day.{% endblock %}
 
 {% block content %}
 
@@ -12,7 +12,7 @@
     <span class="line split-chars">LET&rsquo;S BUILD</span>
     <span class="line split-chars grad">SOMETHING.</span>
   </h1>
-  <p class="page-sub">Tell us what you are building. We reply within one business day — usually faster.</p>
+  <p class="page-sub">Tell us what you are building. We reply within one business day, usually faster.</p>
 </section>
 
 <section class="contact-layout">
@@ -25,7 +25,7 @@
     </div>
     {% endif %}
 
-    <form method="post" class="contact-form" novalidate>
+    <form method="post" class="contact-form" novalidate data-w3f-key="{{ web3forms_key }}">
       {% csrf_token %}
       {% if form.non_field_errors %}
       <p class="form-error">{{ form.non_field_errors.0 }}</p>
@@ -68,7 +68,7 @@
   </div>
 
   <aside class="contact-side">
-    <h2 class="contact-side-title">Or email a founder <span class="grad">directly.</span></h2>
+    <h2 class="contact-side-title">Or email the team <span class="grad">directly.</span></h2>
     <div class="contact-people">
       {% for f in founders %}
       <a href="mailto:{{ f.email }}" class="contact-person" data-cursor data-cursor-label="Email">

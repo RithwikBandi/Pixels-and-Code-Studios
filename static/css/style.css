@@ -277,7 +277,8 @@ html.menu-locked { overflow: hidden; }
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 0 clamp(20px, 5vw, 72px);
+  /* top padding keeps centered content clear of the fixed nav on short viewports */
+  padding: 110px clamp(20px, 5vw, 72px) 90px;
   overflow: hidden;
 }
 .hero-glow {
@@ -472,22 +473,50 @@ section { position: relative; }
 .media-card.is-active { opacity: 1; transform: scale(1); }
 .media-visual {
   flex: 1;
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.media-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85);
+}
+/* warm brand tint + bottom shade so the number stays readable */
+.media-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(12, 10, 7, 0) 40%, rgba(12, 10, 7, 0.65) 100%),
+    linear-gradient(135deg, rgba(255, 154, 31, 0.28), rgba(255, 196, 46, 0.08));
+  mix-blend-mode: normal;
+  pointer-events: none;
 }
 .media-visual span {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(80px, 10vw, 180px);
-  color: rgba(12, 10, 7, 0.35);
+  font-size: clamp(60px, 7vw, 120px);
+  line-height: 1;
+  padding: 0 24px 10px 0;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .media-card p {
   padding: 18px 24px;
   font-weight: 600;
   border-top: 1px solid var(--faint);
 }
-/* per-service gradient placeholders — replace with real video/imagery later */
+/* per-service gradients remain as the fallback while images load */
 .mv-1 { background: linear-gradient(135deg, #ff9a1f, #b4520a); }
 .mv-2 { background: linear-gradient(135deg, #ffc42e, #ff9a1f); }
 .mv-3 { background: linear-gradient(135deg, #ff7a00, #ffc42e); }
