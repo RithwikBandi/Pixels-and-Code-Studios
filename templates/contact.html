@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact — Pixels &amp; Code Studios{% endblock %}
+{% block description %}Start a project with Pixels & Code Studios — tell us what you are building and we reply within one business day.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <p class="page-kicker">Contact</p>
+  <h1 class="page-title">
+    <span class="line split-chars">LET&rsquo;S BUILD</span>
+    <span class="line split-chars grad">SOMETHING.</span>
+  </h1>
+  <p class="page-sub">Tell us what you are building. We reply within one business day — usually faster.</p>
+</section>
+
+<section class="contact-layout">
+  <div class="contact-form-wrap">
+    {% if messages %}
+    <div class="form-messages">
+      {% for m in messages %}
+      <p class="form-success" role="status">{{ m }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="contact-form" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+      <p class="form-error">{{ form.non_field_errors.0 }}</p>
+      {% endif %}
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="{{ form.name.id_for_label }}">Name</label>
+          {{ form.name }}
+          {% if form.name.errors %}<p class="form-error">{{ form.name.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="form-field">
+          <label for="{{ form.email.id_for_label }}">Email</label>
+          {{ form.email }}
+          {% if form.email.errors %}<p class="form-error">{{ form.email.errors.0 }}</p>{% endif %}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="{{ form.service.id_for_label }}">Service</label>
+          {{ form.service }}
+          {% if form.service.errors %}<p class="form-error">{{ form.service.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="form-field">
+          <label for="{{ form.budget.id_for_label }}">Budget</label>
+          {{ form.budget }}
+          {% if form.budget.errors %}<p class="form-error">{{ form.budget.errors.0 }}</p>{% endif %}
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="{{ form.message.id_for_label }}">Project details</label>
+        {{ form.message }}
+        {% if form.message.errors %}<p class="form-error">{{ form.message.errors.0 }}</p>{% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-fill btn-big magnetic" data-cursor>Send inquiry <span class="arrow">&rarr;</span></button>
+    </form>
+  </div>
+
+  <aside class="contact-side">
+    <h2 class="contact-side-title">Or email a founder <span class="grad">directly.</span></h2>
+    <div class="contact-people">
+      {% for f in founders %}
+      <a href="mailto:{{ f.email }}" class="contact-person" data-cursor data-cursor-label="Email">
+        <span class="contact-avatar">
+          <picture>
+            <source srcset="{% static f.img|add:'.webp' %}" type="image/webp">
+            <img src="{% static f.img|add:'.jpg' %}" alt="{{ f.role }}" width="120" height="120" loading="lazy">
+          </picture>
+        </span>
+        <span class="contact-person-meta">
+          <strong>{{ f.role }}</strong>
+          <span>{{ f.email }}</span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="contact-info">
+      <p><strong>Studio</strong><br>Hyderabad, India</p>
+      <p><strong>Hours</strong><br>Mon–Sat, async-friendly<br>US &amp; EU overlap available</p>
+    </div>
+  </aside>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq">
+  <div class="section-head">
+    <p class="section-label reveal">Before you ask</p>
+    <h2 class="section-title reveal">Quick <span class="grad">answers.</span></h2>
+  </div>
+  <div class="faq-list">
+    {% for f in faqs %}
+    <details class="faq-item reveal">
+      <summary data-cursor>{{ f.q }}<span class="faq-plus" aria-hidden="true">+</span></summary>
+      <p>{{ f.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

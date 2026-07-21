@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Page not found — Pixels &amp; Code Studios{% endblock %}
+
+{% block content %}
+<section class="page-hero not-found">
+  <p class="page-kicker">404</p>
+  <h1 class="page-title">
+    <span class="line split-chars">THIS PIXEL</span>
+    <span class="line split-chars grad">DOESN&rsquo;T EXIST.</span>
+  </h1>
+  <p class="page-sub">The page you are looking for moved, or never shipped. Let us get you somewhere real.</p>
+  <div class="not-found-actions">
+    <a href="{% url 'core:home' %}" class="btn btn-fill magnetic" data-cursor>Back home</a>
+    <a href="{% url 'core:work' %}" class="btn btn-ghost magnetic" data-cursor>See our work <span class="arrow">&rarr;</span></a>
+  </div>
+</section>
+{% endblock %}

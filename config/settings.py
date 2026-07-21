@@ -21,10 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%1c$wjm42t6t=wf@wy)fw9c)8=w2i@yx#7*)@5*gt(au_n1ks_'
+# Set DJANGO_SECRET_KEY in the deployment environment; the fallback is for local dev only.
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-local-dev-only-do-not-use-in-production',
+)
 
-# Debug on locally, off in production (Vercel sets the VERCEL env var)
-DEBUG = os.environ.get('VERCEL') != '1'
+# Debug on locally, off in production (Vercel sets the VERCEL env var).
+# DJANGO_DEBUG=1/0 overrides either way for other hosts.
+DEBUG = os.environ.get('DJANGO_DEBUG', '0' if os.environ.get('VERCEL') == '1' else '1') == '1'
 
 ALLOWED_HOSTS = [
     'pixelsandcodestudios.com',
@@ -136,9 +141,17 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Hashed/compressed static files only in production — the manifest requires
+# collectstatic, which local dev and the test runner don't do.
+_static_backend = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    if os.environ.get('VERCEL') == '1'
+    else 'django.contrib.staticfiles.storage.StaticFilesStorage'
+)
+
 STORAGES = {
     'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
-    'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage'},
+    'staticfiles': {'BACKEND': _static_backend},
 }
 
 # Default primary key field type

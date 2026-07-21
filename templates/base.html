@@ -5,10 +5,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Pixels &amp; Code Studios — We build brands that move{% endblock %}</title>
-  <meta name="description" content="Pixels & Code Studios — websites, apps, content, personal branding, video editing, sales and marketing under one roof.">
+  <meta name="description" content="{% block description %}Pixels & Code Studios — websites, apps, content, personal branding, video editing, sales and marketing under one roof.{% endblock %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32.png' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/favicon-192.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pages.css' %}">
 </head>
 <body>
   <!-- film grain overlay -->
@@ -17,7 +21,65 @@
   <!-- custom cursor -->
   <div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
 
-  {% block content %}{% endblock %}
+  <!-- scroll progress -->
+  <div class="progress-bar" aria-hidden="true"></div>
+
+  {% with active=request.resolver_match.url_name %}
+  <header class="nav" id="nav">
+    <a class="brand" href="{% url 'core:home' %}" data-cursor aria-label="Pixels and Code Studios — home">
+      <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
+      <span class="brand-name">Pixels <em>&amp;</em> Code</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="{% url 'core:work' %}" class="roll {% if active == 'work' %}is-current{% endif %}" data-cursor><span class="roll-inner"><span>Work</span><span>Work</span></span></a>
+      <a href="{% url 'core:services' %}" class="roll {% if active == 'services' %}is-current{% endif %}" data-cursor><span class="roll-inner"><span>Services</span><span>Services</span></span></a>
+      <a href="{% url 'core:about' %}" class="roll {% if active == 'about' %}is-current{% endif %}" data-cursor><span class="roll-inner"><span>Studio</span><span>Studio</span></span></a>
+      <a href="{% url 'core:contact' %}" class="roll {% if active == 'contact' %}is-current{% endif %}" data-cursor><span class="roll-inner"><span>Contact</span><span>Contact</span></span></a>
+    </nav>
+    <a href="{% url 'core:contact' %}" class="btn btn-fill nav-cta magnetic" data-cursor>Start a project</a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav class="mobile-menu-links" aria-label="Mobile navigation">
+      <a href="{% url 'core:home' %}" {% if active == 'home' %}class="is-current"{% endif %}>Home</a>
+      <a href="{% url 'core:work' %}" {% if active == 'work' %}class="is-current"{% endif %}>Work</a>
+      <a href="{% url 'core:services' %}" {% if active == 'services' %}class="is-current"{% endif %}>Services</a>
+      <a href="{% url 'core:about' %}" {% if active == 'about' %}class="is-current"{% endif %}>Studio</a>
+      <a href="{% url 'core:contact' %}" {% if active == 'contact' %}class="is-current"{% endif %}>Contact</a>
+    </nav>
+    <div class="mobile-menu-foot">
+      <a href="mailto:developer@pixelsandcodestudios.com">developer@pixelsandcodestudios.com</a>
+      <span>Hyderabad, India</span>
+    </div>
+  </div>
+  {% endwith %}
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-giant" aria-hidden="true">PIXELS <em>&amp;</em> CODE</div>
+    <div class="footer-bar">
+      <div class="footer-left">
+        <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
+        <p>&copy; 2026 Pixels &amp; Code Studios.<br>All rights reserved.</p>
+      </div>
+      <div class="footer-status">
+        <span class="status-pill"><span class="status-dot"></span>Accepting new projects</span>
+        <span class="footer-time">Hyderabad&nbsp;&mdash;&nbsp;<span id="localTime">--:--</span> IST</span>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="{% url 'core:work' %}" class="roll" data-cursor><span class="roll-inner"><span>Work</span><span>Work</span></span></a>
+        <a href="{% url 'core:about' %}" class="roll" data-cursor><span class="roll-inner"><span>Studio</span><span>Studio</span></span></a>
+        <a href="{% url 'core:contact' %}" class="roll" data-cursor><span class="roll-inner"><span>Contact</span><span>Contact</span></span></a>
+      </nav>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>

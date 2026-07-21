@@ -72,7 +72,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translate(-50%, -50%);
+  /* centering is done via GSAP xPercent/yPercent so motion stays on transforms */
   transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s;
   mix-blend-mode: normal;
 }
@@ -101,6 +101,12 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   gap: 24px;
+  /* failsafe: if JS or the animation CDN never loads, the preloader
+     removes itself instead of covering the site forever */
+  animation: preloader-bail 0.5s ease 4s forwards;
+}
+@keyframes preloader-bail {
+  to { opacity: 0; visibility: hidden; }
 }
 .preloader-count {
   font-family: var(--font-display);
@@ -155,6 +161,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 600;
   font-size: 22px;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 .brand-name em { font-style: normal; color: var(--gold); }
 .nav-links { display: flex; gap: 32px; }
@@ -167,6 +174,73 @@ a { color: inherit; text-decoration: none; }
   transition: color 0.25s;
 }
 .nav-links a:hover { color: var(--text); }
+.nav-links a.is-current { color: var(--gold); }
+
+/* fixed nav must not cover section tops on anchor jumps */
+section[id], [id='founders'], [id='work'], [id='services'] { scroll-margin-top: 96px; }
+
+/* ===== hamburger + mobile menu ===== */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--faint);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 320;
+}
+.menu-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.35s var(--ease), opacity 0.3s;
+}
+.menu-toggle.is-open span:first-child { transform: translateY(4.5px) rotate(45deg); }
+.menu-toggle.is-open span:last-child { transform: translateY(-4.5px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 310;
+  background: rgba(12, 10, 7, 0.97);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 48px;
+  padding: 100px clamp(24px, 8vw, 56px) 48px;
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.mobile-menu.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.mobile-menu-links { display: flex; flex-direction: column; gap: 8px; }
+.mobile-menu-links a {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(34px, 9vw, 56px);
+  line-height: 1.2;
+  transition: color 0.25s;
+}
+.mobile-menu-links a.is-current, .mobile-menu-links a:hover { color: var(--orange); }
+.mobile-menu-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.mobile-menu-foot a { color: var(--gold); overflow-wrap: anywhere; }
+html.menu-locked { overflow: hidden; }
 
 /* ===== buttons ===== */
 .btn {
@@ -185,7 +259,15 @@ a { color: inherit; text-decoration: none; }
 .btn-fill:hover { transform: scale(1.04); }
 .btn-ghost { border: 1px solid var(--faint); color: var(--text); }
 .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
-.btn-big { font-size: clamp(15px, 2vw, 20px); padding: 20px 40px; }
+.btn-big {
+  font-size: clamp(14px, 2vw, 20px);
+  padding: 20px clamp(18px, 3vw, 40px);
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+  justify-content: center;
+}
 .arrow { transition: transform 0.3s var(--ease); }
 .btn:hover .arrow { transform: translateX(5px); }
 
@@ -269,6 +351,16 @@ a { color: inherit; text-decoration: none; }
 /* split text helpers (JS wraps chars/lines in these) */
 .split-chars .ch, .split-lines .ln { display: inline-block; will-change: transform; }
 .split-lines .ln-mask { display: block; overflow: hidden; }
+/* words are grouped so lines wrap between words, never mid-word */
+.split-chars .wd-w { display: inline-block; white-space: nowrap; }
+/* gradient must be clipped per-char: transformed children break
+   background-clip:text on the ancestor, leaving the text invisible */
+.grad .ch {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 /* ===== marquee ===== */
 .marquee { overflow: hidden; border-top: 1px solid var(--faint); border-bottom: 1px solid var(--faint); }
@@ -520,6 +612,8 @@ section { position: relative; }
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  gap: 8px 20px;
+  flex-wrap: wrap;
   padding: 18px 6px 0;
 }
 .work-meta h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(18px, 2vw, 26px); }
@@ -610,8 +704,6 @@ section { position: relative; }
 
 /* ===== footer ===== */
 .footer { border-top: 1px solid var(--faint); }
-.footer-marquee { overflow: hidden; padding: 28px 0 0; opacity: 0.35; }
-.footer-marquee .marquee-track { font-size: clamp(20px, 3vw, 36px); padding: 0 0 22px; }
 .footer-bar {
   display: flex;
   align-items: center;
@@ -627,13 +719,19 @@ section { position: relative; }
 
 /* ===== responsive ===== */
 @media (max-width: 900px) {
-  .nav-links { display: none; }
+  .nav-links, .nav-cta { display: none; }
+  .menu-toggle { display: flex; }
   .services-layout { grid-template-columns: 1fr; }
   .services-media { display: none; }
   .svc-item { opacity: 1; }
   .svc-item.is-active { padding-left: 0; }
   .stats { grid-template-columns: repeat(2, 1fr); gap: 40px 16px; }
   .work-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .brand-name { font-size: 18px; }
+  .brand-mark { font-size: 36px; }
+  .team-grid { grid-template-columns: 1fr; }
 }
 
 /* ===== scroll progress ===== */
@@ -852,10 +950,22 @@ section { position: relative; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-status { align-items: flex-start; }
 }
+@media (max-width: 560px) {
+  .team-grid { grid-template-columns: 1fr; }
+}
 
-/* ===== reduced motion ===== */
+/* ===== section-more (link under grids) ===== */
+.section-more { padding: 0 clamp(20px, 5vw, 72px) 140px; margin-top: -80px; }
+
+/* ===== reduced motion / no-JS-libraries fallback =====
+   The horizontal process rail is driven by scroll animation; when motion
+   is off it becomes a native horizontal scroller so no card is lost. */
 @media (prefers-reduced-motion: reduce) {
   .grain, .scroll-hint span::after { animation: none; }
   .marquee-track { animation-duration: 120s; }
   * { transition-duration: 0.01ms !important; }
+  .preloader { display: none; }
+  .process-pin { overflow-x: auto; }
 }
+html.no-anim .process-pin { overflow-x: auto; }
+html.no-anim .preloader { display: none; }

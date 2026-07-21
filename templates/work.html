@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Work — Pixels &amp; Code Studios{% endblock %}
+{% block description %}Selected projects by Pixels & Code Studios — websites, apps, content engines and launches, each with a number attached.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <p class="page-kicker">Selected work</p>
+  <h1 class="page-title">
+    <span class="line split-chars">WORK THAT</span>
+    <span class="line split-chars grad">PERFORMS.</span>
+  </h1>
+  <p class="page-sub">Every project ships with a metric attached. Here is a cut of what we have built — and what it did.</p>
+</section>
+
+<!-- ===== Stats ===== -->
+<section class="stats">
+  {% for st in stats %}
+  <div class="stat">
+    <span class="stat-value"><span class="counter" data-target="{{ st.value }}">{{ st.value }}</span>{{ st.suffix }}</span>
+    <span class="stat-label">{{ st.label }}</span>
+  </div>
+  {% endfor %}
+</section>
+
+<!-- ===== Project list ===== -->
+<section class="work-list">
+  {% for w in work %}
+  <article class="project-row reveal">
+    <div class="project-visual wv-{{ w.hue }}"><span class="work-mark">P<em>C</em></span></div>
+    <div class="project-body">
+      <div class="project-head">
+        <h2>{{ w.title }}</h2>
+        <span class="project-year">{{ w.year }}</span>
+      </div>
+      <p class="project-blurb">{{ w.blurb }}</p>
+      <div class="project-foot">
+        <span class="project-tag">{{ w.tag }}</span>
+        <span class="project-result">{{ w.result }}</span>
+      </div>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+
+<!-- ===== CTA band ===== -->
+<section class="cta-band">
+  <h2 class="section-title">Want a number like these <span class="grad">next to your name?</span></h2>
+  <a href="{% url 'core:contact' %}" class="btn btn-fill magnetic" data-cursor>Start a project <span class="arrow">&rarr;</span></a>
+</section>
+
+{% endblock %}

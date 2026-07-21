@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services — Pixels &amp; Code Studios{% endblock %}
+{% block description %}Websites, apps, content, personal branding, video editing, sales and marketing — seven crafts under one roof at Pixels & Code Studios.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <p class="page-kicker">What we do</p>
+  <h1 class="page-title">
+    <span class="line split-chars">SEVEN CRAFTS.</span>
+    <span class="line split-chars grad">ONE STUDIO.</span>
+  </h1>
+  <p class="page-sub">Most agencies sell you one slice and hand the rest to someone else. We keep design, engineering and growth in the same room.</p>
+</section>
+
+<!-- ===== Service detail cards ===== -->
+<section class="svc-detail-list">
+  {% for s in services %}
+  <article class="svc-detail reveal" id="{{ s.slug }}">
+    <div class="svc-detail-head">
+      <span class="svc-num">{{ s.num }}</span>
+      <div>
+        <h2>{{ s.title }}</h2>
+        <span class="svc-tag">{{ s.tag }}</span>
+      </div>
+    </div>
+    <p class="svc-detail-blurb">{{ s.blurb }}</p>
+    <ul class="svc-points">
+      {% for p in s.points %}
+      <li>{{ p }}</li>
+      {% endfor %}
+    </ul>
+  </article>
+  {% endfor %}
+</section>
+
+<!-- ===== Process ===== -->
+<section class="process-static">
+  <div class="section-head">
+    <p class="section-label reveal">How we work</p>
+    <h2 class="section-title reveal">From idea to <span class="grad">revenue.</span></h2>
+  </div>
+  <div class="process-grid">
+    {% for p in process %}
+    <div class="process-card reveal">
+      <span class="process-num">{{ p.num }}</span>
+      <h3>{{ p.title }}</h3>
+      <p>{{ p.blurb }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq">
+  <div class="section-head">
+    <p class="section-label reveal">Questions</p>
+    <h2 class="section-title reveal">Asked <span class="grad">often.</span></h2>
+  </div>
+  <div class="faq-list">
+    {% for f in faqs %}
+    <details class="faq-item reveal">
+      <summary data-cursor>{{ f.q }}<span class="faq-plus" aria-hidden="true">+</span></summary>
+      <p>{{ f.a }}</p>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== CTA band ===== -->
+<section class="cta-band">
+  <h2 class="section-title">Not sure which one you need? <span class="grad">That is our job.</span></h2>
+  <a href="{% url 'core:contact' %}" class="btn btn-fill magnetic" data-cursor>Talk to us <span class="arrow">&rarr;</span></a>
+</section>
+
+{% endblock %}

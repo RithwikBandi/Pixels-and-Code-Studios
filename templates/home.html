@@ -3,31 +3,13 @@
 
 {% block content %}
 
-<!-- scroll progress -->
-<div class="progress-bar" aria-hidden="true"></div>
-
-<!-- ===== Preloader ===== -->
+<!-- ===== Preloader (home only) ===== -->
 <div class="preloader" id="preloader">
   <div class="preloader-mark">
     <span class="mark-p">P</span><span class="mark-c">C</span>
   </div>
   <div class="preloader-count" id="preloaderCount">0</div>
 </div>
-
-<!-- ===== Nav ===== -->
-<header class="nav" id="nav">
-  <a class="brand" href="#" data-cursor>
-    <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
-    <span class="brand-name">Pixels <em>&amp;</em> Code</span>
-  </a>
-  <nav class="nav-links">
-    <a href="#services" class="roll" data-cursor><span class="roll-inner"><span>Services</span><span>Services</span></span></a>
-    <a href="#work" class="roll" data-cursor><span class="roll-inner"><span>Work</span><span>Work</span></span></a>
-    <a href="#collective" class="roll" data-cursor><span class="roll-inner"><span>Studio</span><span>Studio</span></span></a>
-    <a href="#process" class="roll" data-cursor><span class="roll-inner"><span>Process</span><span>Process</span></span></a>
-  </nav>
-  <a href="#contact" class="btn btn-fill magnetic" data-cursor>Start a project</a>
-</header>
 
 <!-- ===== Hero ===== -->
 <section class="hero" id="hero">
@@ -42,7 +24,7 @@
     </h1>
     <div class="hero-foot">
       <p class="hero-sub">Websites, apps, content, video and growth —<br>one studio, every pixel and every line of code.</p>
-      <a href="#work" class="btn btn-ghost magnetic" data-cursor>See our work <span class="arrow">&rarr;</span></a>
+      <a href="{% url 'core:work' %}" class="btn btn-ghost magnetic" data-cursor>See our work <span class="arrow">&rarr;</span></a>
     </div>
   </div>
   <div class="scroll-hint" aria-hidden="true"><span></span>scroll</div>
@@ -65,14 +47,14 @@
   <div class="services-layout">
     <div class="services-list">
       {% for s in services %}
-      <div class="svc-item" data-index="{{ forloop.counter0 }}" data-cursor data-cursor-label="View">
+      <a href="{% url 'core:services' %}#{{ s.slug }}" class="svc-item" data-index="{{ forloop.counter0 }}" data-cursor data-cursor-label="View">
         <span class="svc-num">{{ s.num }}</span>
         <div class="svc-body">
           <h3 class="svc-title">{{ s.title }}</h3>
           <p class="svc-blurb">{{ s.blurb }}</p>
           <span class="svc-tag">{{ s.tag }}</span>
         </div>
-      </div>
+      </a>
       {% endfor %}
     </div>
     <div class="services-media">
@@ -108,7 +90,7 @@
 <section class="stats" id="stats">
   {% for st in stats %}
   <div class="stat">
-    <span class="stat-value"><span class="counter" data-target="{{ st.value }}">0</span>{{ st.suffix }}</span>
+    <span class="stat-value"><span class="counter" data-target="{{ st.value }}">{{ st.value }}</span>{{ st.suffix }}</span>
     <span class="stat-label">{{ st.label }}</span>
   </div>
   {% endfor %}
@@ -131,7 +113,7 @@
   </div>
   <div class="work-grid">
     {% for w in work %}
-    <a href="#contact" class="work-card tilt" data-cursor data-cursor-label="View">
+    <a href="{% url 'core:work' %}" class="work-card tilt" data-cursor data-cursor-label="View">
       <div class="work-visual wv-{{ w.hue }}"><span class="work-mark">P<em>C</em></span></div>
       <div class="work-meta">
         <h3>{{ w.title }}</h3>
@@ -139,6 +121,9 @@
       </div>
     </a>
     {% endfor %}
+  </div>
+  <div class="section-more">
+    <a href="{% url 'core:work' %}" class="btn btn-ghost magnetic" data-cursor>All projects <span class="arrow">&rarr;</span></a>
   </div>
 </section>
 
@@ -151,10 +136,35 @@
   <div class="team-grid">
     {% for t in team %}
     <div class="team-card">
-      <span class="team-count"><span class="counter" data-target="{{ t.count }}">0</span></span>
+      <span class="team-count"><span class="counter" data-target="{{ t.count }}">{{ t.count }}</span></span>
       <h3>{{ t.role }}</h3>
       <p>{{ t.blurb }}</p>
     </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== Founders ===== -->
+<section class="founders" id="founders">
+  <div class="section-head">
+    <p class="section-label reveal">The founders</p>
+    <h2 class="section-title reveal">Three founders.<br><span class="grad">One standard.</span></h2>
+  </div>
+  <div class="founders-grid">
+    {% for f in founders %}
+    <a href="mailto:{{ f.email }}" class="founder-card" data-cursor data-cursor-label="Email">
+      <div class="founder-photo">
+        <picture>
+          <source srcset="{% static f.img|add:'.webp' %}" type="image/webp">
+          <img src="{% static f.img|add:'.jpg' %}" alt="{{ f.role }}" width="800" height="800" loading="lazy">
+        </picture>
+      </div>
+      <div class="founder-meta">
+        <h3>{{ f.role }}</h3>
+        <p>{{ f.blurb }}</p>
+        <span class="founder-mail">{{ f.email }}</span>
+      </div>
+    </a>
     {% endfor %}
   </div>
 </section>
@@ -210,25 +220,5 @@
     <a href="mailto:editor@pixelsandcodestudios.com" data-cursor>editor@pixelsandcodestudios.com</a>
   </div>
 </section>
-
-<!-- ===== Footer ===== -->
-<footer class="footer">
-  <div class="footer-giant" aria-hidden="true">PIXELS <em>&amp;</em> CODE</div>
-  <div class="footer-bar">
-    <div class="footer-left">
-      <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
-      <p>&copy; 2026 Pixels &amp; Code Studios.<br>All rights reserved.</p>
-    </div>
-    <div class="footer-status">
-      <span class="status-pill"><span class="status-dot"></span>Accepting new projects</span>
-      <span class="footer-time">Hyderabad&nbsp;&mdash;&nbsp;<span id="localTime">--:--</span> IST</span>
-    </div>
-    <div class="footer-links">
-      <a href="#" class="roll" data-cursor><span class="roll-inner"><span>Instagram</span><span>Instagram</span></span></a>
-      <a href="#" class="roll" data-cursor><span class="roll-inner"><span>YouTube</span><span>YouTube</span></span></a>
-      <a href="#" class="roll" data-cursor><span class="roll-inner"><span>LinkedIn</span><span>LinkedIn</span></span></a>
-    </div>
-  </div>
-</footer>
 
 {% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Studio — Pixels &amp; Code Studios{% endblock %}
+{% block description %}The studio behind the brands — founders, collective and values of Pixels & Code Studios, Hyderabad.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <p class="page-kicker">The studio</p>
+  <h1 class="page-title">
+    <span class="line split-chars">THE TEAM BEHIND</span>
+    <span class="line split-chars grad">THE BRAND.</span>
+  </h1>
+  <p class="page-sub">Pixels &amp; Code started with three founders and one rule: never hand work to another agency. Everything ships from this roof.</p>
+</section>
+
+<!-- ===== Story ===== -->
+<section class="story">
+  <p class="manifesto-text" id="manifestoText">We are designers, engineers, editors and growth operators under one roof — shipping work that looks expensive because it is crafted, and performs because it is engineered. You bring the ambition. We bring everything else.</p>
+</section>
+
+<!-- ===== Founders — developer first ===== -->
+<section class="founders">
+  <div class="section-head">
+    <p class="section-label reveal">The founders</p>
+    <h2 class="section-title reveal">Three founders.<br><span class="grad">One standard.</span></h2>
+  </div>
+  <div class="founders-grid">
+    {% for f in founders %}
+    <a href="mailto:{{ f.email }}" class="founder-card" data-cursor data-cursor-label="Email">
+      <div class="founder-photo">
+        <picture>
+          <source srcset="{% static f.img|add:'.webp' %}" type="image/webp">
+          <img src="{% static f.img|add:'.jpg' %}" alt="{{ f.role }}" width="800" height="800" loading="lazy">
+        </picture>
+      </div>
+      <div class="founder-meta">
+        <h3>{{ f.role }}</h3>
+        <p>{{ f.blurb }}</p>
+        <span class="founder-mail">{{ f.email }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== Values ===== -->
+<section class="values">
+  <div class="section-head">
+    <p class="section-label reveal">What we believe</p>
+    <h2 class="section-title reveal">Rules we <span class="grad">work by.</span></h2>
+  </div>
+  <div class="values-grid">
+    {% for v in values %}
+    <div class="value-card reveal">
+      <span class="process-num">{{ v.num }}</span>
+      <h3>{{ v.title }}</h3>
+      <p>{{ v.blurb }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== Collective ===== -->
+<section class="collective">
+  <div class="section-head">
+    <p class="section-label reveal">The collective</p>
+    <h2 class="section-title reveal">100+ specialists.<br><span class="grad">Zero handoffs.</span></h2>
+  </div>
+  <div class="team-grid">
+    {% for t in team %}
+    <div class="team-card">
+      <span class="team-count"><span class="counter" data-target="{{ t.count }}">{{ t.count }}</span></span>
+      <h3>{{ t.role }}</h3>
+      <p>{{ t.blurb }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== Stats ===== -->
+<section class="stats">
+  {% for st in stats %}
+  <div class="stat">
+    <span class="stat-value"><span class="counter" data-target="{{ st.value }}">{{ st.value }}</span>{{ st.suffix }}</span>
+    <span class="stat-label">{{ st.label }}</span>
+  </div>
+  {% endfor %}
+</section>
+
+<!-- ===== CTA band ===== -->
+<section class="cta-band">
+  <h2 class="section-title">Like how we work? <span class="grad">Work with us.</span></h2>
+  <a href="{% url 'core:contact' %}" class="btn btn-fill magnetic" data-cursor>Start a project <span class="arrow">&rarr;</span></a>
+</section>
+
+{% endblock %}
