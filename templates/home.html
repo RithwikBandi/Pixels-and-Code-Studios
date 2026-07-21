@@ -83,11 +83,15 @@
 
 <!-- ===== Showreel ===== -->
 <section class="reel" id="reel">
-  <div class="reel-inner" data-cursor data-cursor-label="Play">
+  <div class="reel-inner" data-cursor data-cursor-label="Sound">
     <div class="reel-poster">
+      <video class="reel-video"
+             src="{% static 'video/showreel.mp4' %}"
+             poster="{% static 'video/showreel-poster.jpg' %}"
+             muted loop playsinline preload="none"
+             aria-label="Pixels and Code Studios showreel"></video>
       <span class="reel-badge">Showreel &rsquo;26</span>
-      <span class="reel-play" aria-hidden="true">&#9654;</span>
-      <p class="reel-copy">Every frame earns attention.</p>
+      <span class="reel-sound" aria-hidden="true">Sound off</span>
     </div>
   </div>
 </section>

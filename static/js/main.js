@@ -129,6 +129,29 @@
     });
   }
 
+  /* ---------- showreel video: play only in view, click toggles sound ---- */
+  var reelVideo = document.querySelector('.reel-video');
+  if (reelVideo) {
+    var reelWrap = document.querySelector('.reel-inner');
+    var soundPill = document.querySelector('.reel-sound');
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) reelVideo.play().catch(function () {});
+          else reelVideo.pause();
+        });
+      }, { threshold: 0.25 }).observe(reelVideo);
+    } else {
+      reelVideo.autoplay = true;
+      reelVideo.play().catch(function () {});
+    }
+    reelWrap.addEventListener('click', function () {
+      reelVideo.muted = !reelVideo.muted;
+      if (!reelVideo.muted) reelVideo.play().catch(function () {});
+      if (soundPill) soundPill.textContent = reelVideo.muted ? 'Sound off' : 'Sound on';
+    });
+  }
+
   /* ---------- custom themed dropdowns (native popup can't be styled) ---- */
   function enhanceSelect(select) {
     var shell = document.createElement('div');
