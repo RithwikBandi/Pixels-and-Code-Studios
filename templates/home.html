@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ===== Preloader ===== -->
+<div class="preloader" id="preloader">
+  <div class="preloader-mark">
+    <span class="mark-p">P</span><span class="mark-c">C</span>
+  </div>
+  <div class="preloader-count" id="preloaderCount">0</div>
+</div>
+
+<!-- ===== Nav ===== -->
+<header class="nav" id="nav">
+  <a class="brand" href="#" data-cursor>
+    <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
+    <span class="brand-name">Pixels <em>&amp;</em> Code</span>
+  </a>
+  <nav class="nav-links">
+    <a href="#services" data-cursor>Services</a>
+    <a href="#work" data-cursor>Work</a>
+    <a href="#process" data-cursor>Process</a>
+  </nav>
+  <a href="#contact" class="btn btn-fill magnetic" data-cursor>Start a project</a>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="hero">
+  <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="hero-kicker split-lines">Pixels &amp; Code Studios</p>
+    <h1 class="hero-title">
+      <span class="line split-chars">WE BUILD</span>
+      <span class="line split-chars">BRANDS THAT</span>
+      <span class="line split-chars grad">MOVE.</span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-sub split-lines">Websites, apps, content, video and growth —<br>one studio, every pixel and every line of code.</p>
+      <a href="#work" class="btn btn-ghost magnetic" data-cursor>See our work <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true"><span></span>scroll</div>
+</section>
+
+<!-- ===== Marquee ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Websites <i>&#10022;</i> Apps <i>&#10022;</i> Content <i>&#10022;</i> Branding <i>&#10022;</i> Video <i>&#10022;</i> Leads <i>&#10022;</i> Marketing <i>&#10022;</i>&nbsp;</span>
+    <span>Websites <i>&#10022;</i> Apps <i>&#10022;</i> Content <i>&#10022;</i> Branding <i>&#10022;</i> Video <i>&#10022;</i> Leads <i>&#10022;</i> Marketing <i>&#10022;</i>&nbsp;</span>
+  </div>
+</div>
+
+<!-- ===== Services ===== -->
+<section class="services" id="services">
+  <div class="section-head">
+    <p class="section-label reveal">What we do</p>
+    <h2 class="section-title reveal">Seven crafts.<br><span class="grad">One studio.</span></h2>
+  </div>
+  <div class="services-layout">
+    <div class="services-list">
+      {% for s in services %}
+      <div class="svc-item" data-index="{{ forloop.counter0 }}" data-cursor data-cursor-label="View">
+        <span class="svc-num">{{ s.num }}</span>
+        <div class="svc-body">
+          <h3 class="svc-title">{{ s.title }}</h3>
+          <p class="svc-blurb">{{ s.blurb }}</p>
+          <span class="svc-tag">{{ s.tag }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="services-media">
+      <div class="media-stack">
+        {% for s in services %}
+        <div class="media-card" data-index="{{ forloop.counter0 }}">
+          <div class="media-visual mv-{{ forloop.counter }}"><span>{{ s.num }}</span></div>
+          <p>{{ s.title }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showreel ===== -->
+<section class="reel" id="reel">
+  <div class="reel-inner" data-cursor data-cursor-label="Play">
+    <div class="reel-poster">
+      <span class="reel-badge">Showreel &rsquo;26</span>
+      <span class="reel-play" aria-hidden="true">&#9654;</span>
+      <p class="reel-copy">Every frame earns attention.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Stats ===== -->
+<section class="stats" id="stats">
+  {% for st in stats %}
+  <div class="stat">
+    <span class="stat-value"><span class="counter" data-target="{{ st.value }}">0</span>{{ st.suffix }}</span>
+    <span class="stat-label">{{ st.label }}</span>
+  </div>
+  {% endfor %}
+</section>
+
+<!-- ===== Work ===== -->
+<section class="work" id="work">
+  <div class="section-head">
+    <p class="section-label reveal">Selected work</p>
+    <h2 class="section-title reveal">Built to <span class="grad">perform.</span></h2>
+  </div>
+  <div class="work-grid">
+    {% for w in work %}
+    <a href="#contact" class="work-card" data-cursor data-cursor-label="View">
+      <div class="work-visual wv-{{ w.hue }}"><span class="work-mark">P<em>C</em></span></div>
+      <div class="work-meta">
+        <h3>{{ w.title }}</h3>
+        <span>{{ w.tag }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== Process ===== -->
+<section class="process" id="process">
+  <div class="process-pin">
+    <div class="section-head process-head">
+      <p class="section-label">How we work</p>
+      <h2 class="section-title">From idea to <span class="grad">revenue.</span></h2>
+    </div>
+    <div class="process-track" id="processTrack">
+      {% for p in process %}
+      <div class="process-card">
+        <span class="process-num">{{ p.num }}</span>
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.blurb }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta" id="contact">
+  <div class="cta-glow" aria-hidden="true"></div>
+  <h2 class="cta-title">
+    <span class="line split-chars">LET&rsquo;S BUILD</span>
+    <span class="line split-chars grad">SOMETHING.</span>
+  </h2>
+  <a href="mailto:developer@pixelsandcodestudios.com" class="btn btn-fill btn-big magnetic" data-cursor>developer@pixelsandcodestudios.com</a>
+  <div class="cta-mails">
+    <a href="mailto:content@pixelsandcodestudios.com" data-cursor>content@pixelsandcodestudios.com</a>
+    <span aria-hidden="true">&#10022;</span>
+    <a href="mailto:editor@pixelsandcodestudios.com" data-cursor>editor@pixelsandcodestudios.com</a>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="footer-marquee" aria-hidden="true">
+    <div class="marquee-track slow">
+      <span>Pixels &amp; Code Studios &mdash; </span>
+      <span>Pixels &amp; Code Studios &mdash; </span>
+      <span>Pixels &amp; Code Studios &mdash; </span>
+      <span>Pixels &amp; Code Studios &mdash; </span>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <span class="brand-mark"><span class="mark-p">P</span><span class="mark-c">C</span></span>
+    <p>&copy; 2026 Pixels &amp; Code Studios. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#" data-cursor>Instagram</a>
+      <a href="#" data-cursor>YouTube</a>
+      <a href="#" data-cursor>LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+{% endblock %}
