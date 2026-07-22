@@ -37,8 +37,8 @@
 /* ===== founders ===== */
 .founders-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(18px, 2.4vw, 36px);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(18px, 2vw, 30px);
   padding: 0 clamp(20px, 5vw, 72px) 140px;
 }
 .founder-card {
@@ -529,8 +529,10 @@ html.no-anim .net-pulse { display: none; }
 .not-found-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
 
 /* ===== responsive ===== */
+@media (max-width: 1080px) {
+  .founders-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 900px) {
-  .founders-grid { grid-template-columns: 1fr; max-width: 560px; }
   .project-row { grid-template-columns: 1fr; }
   .project-row:nth-child(even) .project-visual { order: 0; }
   .contact-layout { grid-template-columns: 1fr; }
@@ -539,4 +541,5 @@ html.no-anim .net-pulse { display: none; }
 @media (max-width: 560px) {
   .form-row { grid-template-columns: 1fr; }
   .contact-form .btn { align-self: stretch; }
+  .founders-grid { grid-template-columns: 1fr; max-width: 400px; margin-inline: auto; }
 }

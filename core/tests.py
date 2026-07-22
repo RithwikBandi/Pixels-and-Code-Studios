@@ -30,8 +30,10 @@ class PageTests(TestCase):
     def test_about_renders(self):
         res = self.client.get(reverse('core:about'))
         self.assertEqual(res.status_code, 200)
-        self.assertContains(res, 'Three leaders.')
+        self.assertContains(res, 'One team.')
         self.assertContains(res, 'CTO · Chief Technology Officer')
+        self.assertContains(res, 'COO · Chief Operating Officer')
+        self.assertContains(res, 'operations@pixelsandcodestudios.com')
 
     def test_contact_renders_form(self):
         res = self.client.get(reverse('core:contact'))
@@ -63,9 +65,13 @@ class FounderOrderTests(TestCase):
         dev = html.find('developer@pixelsandcodestudios.com')
         content = html.find('content@pixelsandcodestudios.com')
         editor = html.find('editor@pixelsandcodestudios.com')
+        ops = html.find('operations@pixelsandcodestudios.com')
         self.assertNotEqual(dev, -1)
         self.assertLess(dev, content)
         self.assertLess(dev, editor)
+        # COO (operations) is listed last, after the three founders
+        if ops != -1:
+            self.assertLess(editor, ops)
 
     def test_about_page(self):
         self.assert_developer_first('core:about')

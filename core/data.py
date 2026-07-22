@@ -170,6 +170,12 @@ FOUNDERS = [
         'img': 'img/founder-editor',
         'blurb': 'Runs the edit suite: grades, sound and motion that make every frame land.',
     },
+    {
+        'role': 'COO · Chief Operating Officer',
+        'email': 'operations@pixelsandcodestudios.com',
+        'img': 'img/founder-operations',
+        'blurb': 'Runs operations and delivery: every project, team and deadline moves through him.',
+    },
 ]
 
 VALUES = [
