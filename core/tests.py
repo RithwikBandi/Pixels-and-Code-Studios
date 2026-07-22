@@ -1,6 +1,10 @@
+from unittest.mock import patch
+
+from django.db import DatabaseError
 from django.test import TestCase
 from django.urls import reverse
 
+from .forms import ContactForm
 from .models import ContactMessage
 
 
@@ -117,6 +121,16 @@ class ContactFormTests(TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(ContactMessage.objects.count(), 0)
         self.assertContains(res, 'at least 10 characters')
+
+    def test_read_only_database_does_not_500(self):
+        """Vercel's serverless filesystem is read-only: the SQLite save fails
+        there, but the submission must still succeed (email carries it)."""
+        with patch.object(ContactForm, 'save', side_effect=DatabaseError('read-only')):
+            res = self.client.post(
+                reverse('core:contact'), self.valid_payload(), follow=True,
+            )
+        self.assertEqual(res.status_code, 200)
+        self.assertContains(res, 'your inquiry is in')
 
     def test_optional_fields_can_be_blank(self):
         res = self.client.post(

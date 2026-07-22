@@ -1,9 +1,14 @@
+import logging
+
 from django.conf import settings
 from django.contrib import messages
+from django.db import DatabaseError
 from django.shortcuts import redirect, render
 
 from . import data
 from .forms import ContactForm
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
@@ -46,7 +51,14 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
+            try:
+                form.save()
+            except DatabaseError:
+                # Serverless hosts (Vercel) have a read-only filesystem, so the
+                # SQLite write fails there. The inquiry is still delivered by
+                # email via the client-side Web3Forms submit; don't 500 on it.
+                logger.warning('Contact inquiry not persisted (read-only DB); '
+                               'relying on email delivery.')
             messages.success(
                 request,
                 'Got it, your inquiry is in. We reply within one business day.',
