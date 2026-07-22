@@ -390,7 +390,7 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var W, H, particles;
     var mouse = { x: -9999, y: -9999 };
-    var COLORS = ['255, 154, 31', '255, 196, 46'];
+    var COLORS = ['178, 96, 0', '255, 154, 31']; // deep ambers read on paper
 
     function resize() {
       W = canvas.offsetWidth;
