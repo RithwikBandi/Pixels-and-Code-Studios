@@ -1,6 +1,6 @@
 {% load static %}
 <div class="network-wrap">
-  <svg class="network-svg" viewBox="0 0 1200 700" role="img" aria-label="How work flows: from the three leaders through seven crafts into the business and to the client">
+  <svg class="network-svg" viewBox="0 0 1200 700" role="img" aria-label="How work flows: from the three leaders through seven crafts and the operations hub into the studio and out to the client">
     <g class="net-edges" aria-hidden="true">
       <path class="net-edge" d="M164 180 C273.0 180, 273.0 110, 382.0 110"/>
       <path class="net-edge" d="M164 180 C273.0 180, 273.0 270, 382.0 270"/>
@@ -30,6 +30,13 @@
       <path class="net-edge" d="M842.0 350 C880.0 350, 880.0 350, 918 350"/>
       <path class="net-edge" d="M842.0 520 C880.0 520, 880.0 350, 918 350"/>
       <path class="net-edge" d="M1038 350 C1055.0 350, 1055.0 350, 1072 350"/>
+      <path class="net-edge net-edge-hub" d="M558.0 110 C560.0 110, 560.0 350, 562 350"/>
+      <path class="net-edge net-edge-hub" d="M558.0 270 C560.0 270, 560.0 350, 562 350"/>
+      <path class="net-edge net-edge-hub" d="M558.0 430 C560.0 430, 560.0 350, 562 350"/>
+      <path class="net-edge net-edge-hub" d="M558.0 590 C560.0 590, 560.0 350, 562 350"/>
+      <path class="net-edge net-edge-hub" d="M666 350 C670.0 350, 670.0 180, 674.0 180"/>
+      <path class="net-edge net-edge-hub" d="M666 350 C670.0 350, 670.0 350, 674.0 350"/>
+      <path class="net-edge net-edge-hub" d="M666 350 C670.0 350, 670.0 520, 674.0 520"/>
     </g>
     <g class="net-pulses" aria-hidden="true">
       <path class="net-pulse" d="M164 180 C273.0 180, 273.0 110, 382.0 110"/>
@@ -60,6 +67,13 @@
       <path class="net-pulse" d="M842.0 350 C880.0 350, 880.0 350, 918 350"/>
       <path class="net-pulse" d="M842.0 520 C880.0 520, 880.0 350, 918 350"/>
       <path class="net-pulse" d="M1038 350 C1055.0 350, 1055.0 350, 1072 350"/>
+      <path class="net-pulse net-pulse-hub" d="M558.0 110 C560.0 110, 560.0 350, 562 350"/>
+      <path class="net-pulse net-pulse-hub" d="M558.0 270 C560.0 270, 560.0 350, 562 350"/>
+      <path class="net-pulse net-pulse-hub" d="M558.0 430 C560.0 430, 560.0 350, 562 350"/>
+      <path class="net-pulse net-pulse-hub" d="M558.0 590 C560.0 590, 560.0 350, 562 350"/>
+      <path class="net-pulse net-pulse-hub" d="M666 350 C670.0 350, 670.0 180, 674.0 180"/>
+      <path class="net-pulse net-pulse-hub" d="M666 350 C670.0 350, 670.0 350, 674.0 350"/>
+      <path class="net-pulse net-pulse-hub" d="M666 350 C670.0 350, 670.0 520, 674.0 520"/>
     </g>
     <g class="net-node">
       <clipPath id="clip-f0"><circle cx="112" cy="180" r="45"/></clipPath>
@@ -117,6 +131,12 @@
       <circle class="net-ring" cx="1122" cy="350" r="46"/>
       <image href="{% static 'img/client.jpg' %}" x="1079" y="307" width="86" height="86" clip-path="url(#clip-client)" preserveAspectRatio="xMidYMid slice"/>
       <text class="net-tag" x="1122" y="422" text-anchor="middle">Your brand</text>
+    </g>
+    <g class="net-node">
+      <clipPath id="clip-ops"><circle cx="614" cy="350" r="47"/></clipPath>
+      <circle class="net-ring net-ring-hub" cx="614" cy="350" r="50"/>
+      <image href="{% static 'img/founder-operations.jpg' %}" x="567" y="303" width="94" height="94" clip-path="url(#clip-ops)" preserveAspectRatio="xMidYMid slice"/>
+      <text class="net-tag" x="614" y="426" text-anchor="middle">Operations</text>
     </g>
   </svg>
 </div>

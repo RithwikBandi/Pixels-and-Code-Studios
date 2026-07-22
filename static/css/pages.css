@@ -493,6 +493,10 @@ html.no-anim .net-pulse { display: none; }
   stroke-width: 2.5;
 }
 .net-biz { stroke: var(--orange); stroke-width: 3; }
+/* operations hub: gold ring so it reads as the central workflow node */
+.net-ring-hub { stroke: var(--gold); stroke-width: 3.5; }
+.net-edge-hub { stroke: rgba(156, 84, 0, 0.28); stroke-width: 2; }
+.net-pulse-hub { stroke: var(--gold); }
 .net-pill {
   fill: var(--bg-2);
   stroke: rgba(156, 84, 0, 0.35);
