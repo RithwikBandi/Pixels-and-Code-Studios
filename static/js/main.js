@@ -398,7 +398,7 @@
       canvas.width = W * dpr;
       canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var n = Math.min(90, Math.floor(W / 16));
+      var n = Math.min(64, Math.floor(W / 22));
       particles = [];
       for (var i = 0; i < n; i++) {
         particles.push({
@@ -423,35 +423,49 @@
     });
     heroEl.addEventListener('mouseleave', function () { mouse.x = -9999; mouse.y = -9999; });
 
+    // Only animate while the hero is actually on screen — the loop stops
+    // entirely once you scroll past it, so it costs nothing further down.
+    var running = false, rafId = 0, inView = true;
+
     function frame() {
-      if (!document.hidden) {
-        ctx.clearRect(0, 0, W, H);
-        for (var i = 0; i < particles.length; i++) {
-          var p = particles[i];
-          p.x += p.vx; p.y += p.vy;
-          if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
-          if (p.y < -10) p.y = H + 10; else if (p.y > H + 10) p.y = -10;
+      if (!inView || document.hidden) { running = false; return; }
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
+        if (p.y < -10) p.y = H + 10; else if (p.y > H + 10) p.y = -10;
 
-          var dx = p.x - mouse.x, dy = p.y - mouse.y;
-          var d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 150) {
-            ctx.strokeStyle = 'rgba(' + p.c + ',' + ((1 - d / 150) * 0.35).toFixed(3) + ')';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
-          }
-
-          ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
+        var dx = p.x - mouse.x, dy = p.y - mouse.y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 150) {
+          ctx.strokeStyle = 'rgba(' + p.c + ',' + ((1 - d / 150) * 0.35).toFixed(3) + ')';
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
         }
+
+        ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
       }
-      requestAnimationFrame(frame);
+      rafId = requestAnimationFrame(frame);
     }
-    frame();
+    function start() { if (!running) { running = true; rafId = requestAnimationFrame(frame); } }
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (inView) start();
+      }, { threshold: 0.01 }).observe(canvas);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden && inView) start();
+    });
+    start();
   })();
 
   /* ---------- hero pin-and-dim ---------- */
@@ -487,16 +501,21 @@
     marqueeTweens.push(tween);
   });
   if (marqueeTweens.length) {
+    // One shared boost value, updated by scroll velocity and eased back to 1
+    // in a single ticker callback — never spawns a tween per scroll frame.
+    var mqBoost = 1;
     ScrollTrigger.create({
       start: 0,
       end: 'max',
       onUpdate: function (self) {
-        var boost = gsap.utils.clamp(1, 4, 1 + Math.abs(self.getVelocity()) / 1200);
-        marqueeTweens.forEach(function (t) {
-          t.timeScale(boost);
-          gsap.to(t, { timeScale: 1, duration: 1.2, ease: 'power2.out', overwrite: 'auto' });
-        });
+        mqBoost = gsap.utils.clamp(1, 4, 1 + Math.abs(self.getVelocity()) / 1200);
       }
+    });
+    gsap.ticker.add(function () {
+      if (mqBoost === 1) return;              // idle: nothing to do
+      mqBoost += (1 - mqBoost) * 0.06;         // decay toward 1
+      if (mqBoost < 1.01) mqBoost = 1;
+      for (var i = 0; i < marqueeTweens.length; i++) marqueeTweens[i].timeScale(mqBoost);
     });
   }
 
@@ -670,23 +689,33 @@
       stagger: 0.06,
       scrollTrigger: { trigger: '.network-wrap', start: 'top 80%' }
     });
-    // energy pulses: short glowing dashes travelling along each connection
+    // energy pulses: short glowing dashes travelling along each connection.
+    // Tweens are created paused and only run while the section is on screen,
+    // so they cost nothing when you are elsewhere on the page.
     var pulses = netSvg.querySelectorAll('.net-pulse');
+    var pulseTweens = [];
     pulses.forEach(function (pulse, i) {
       var len = pulse.getTotalLength();
       gsap.set(pulse, { strokeDasharray: '16 ' + len, strokeDashoffset: 16 });
-      gsap.to(pulse, {
+      pulseTweens.push(gsap.to(pulse, {
         strokeDashoffset: -len,
         duration: 2.4 + (i % 5) * 0.5,
         ease: 'none',
         repeat: -1,
-        delay: (i % 7) * 0.4
-      });
+        delay: (i % 7) * 0.4,
+        paused: true
+      }));
     });
-    gsap.to(pulses, {
-      opacity: 0.9,
-      duration: 0.8,
-      scrollTrigger: { trigger: '.network-wrap', start: 'top 55%' }
+    ScrollTrigger.create({
+      trigger: '.network-wrap',
+      start: 'top 85%',
+      end: 'bottom 15%',
+      onToggle: function (self) {
+        gsap.to(pulses, { opacity: self.isActive ? 0.9 : 0, duration: 0.5 });
+        for (var i = 0; i < pulseTweens.length; i++) {
+          if (self.isActive) pulseTweens[i].play(); else pulseTweens[i].pause();
+        }
+      }
     });
   }
 

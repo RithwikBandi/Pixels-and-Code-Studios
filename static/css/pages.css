@@ -482,10 +482,9 @@
 .net-pulse {
   fill: none;
   stroke: var(--orange);
-  stroke-width: 2.5;
+  stroke-width: 3;
   stroke-linecap: round;
   opacity: 0;               /* faded in by JS once the section is reached */
-  filter: drop-shadow(0 0 5px rgba(255, 154, 31, 0.8));
 }
 html.no-anim .net-pulse { display: none; }
 .net-ring {

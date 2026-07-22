@@ -45,22 +45,17 @@ a { color: inherit; text-decoration: none; }
   color: transparent;
 }
 
-/* ===== film grain ===== */
+/* ===== film grain (static paper texture) =====
+   A static overlay: animating a full-viewport layer forced the compositor
+   to repaint the whole page every frame, which is the main scroll-lag
+   culprit. The texture alone gives the warm paper feel at zero runtime cost. */
 .grain {
   position: fixed;
-  inset: -100px;
+  inset: 0;
   z-index: 200;
   pointer-events: none;
-  opacity: 0.045;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain-shift 0.9s steps(4) infinite;
-}
-@keyframes grain-shift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-40px, 30px); }
-  50% { transform: translate(30px, -50px); }
-  75% { transform: translate(-30px, -20px); }
-  100% { transform: translate(40px, 40px); }
 }
 
 /* ===== custom cursor ===== */
