@@ -463,6 +463,64 @@
 }
 .contact-info strong { color: var(--text); font-weight: 600; }
 
+/* ===== neural network section ===== */
+.network-wrap {
+  overflow-x: auto;
+  padding: 0 clamp(20px, 5vw, 72px) 140px;
+}
+.network-svg {
+  display: block;
+  width: 100%;
+  min-width: 900px; /* scrolls sideways on phones instead of shrinking to mush */
+  height: auto;
+}
+.net-edge {
+  fill: none;
+  stroke: rgba(34, 26, 18, 0.13);
+  stroke-width: 1.5;
+}
+.net-pulse {
+  fill: none;
+  stroke: var(--orange);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0;               /* faded in by JS once the section is reached */
+  filter: drop-shadow(0 0 5px rgba(255, 154, 31, 0.8));
+}
+html.no-anim .net-pulse { display: none; }
+.net-ring {
+  fill: var(--bg-2);
+  stroke: rgba(255, 154, 31, 0.65);
+  stroke-width: 2.5;
+}
+.net-biz { stroke: var(--orange); stroke-width: 3; }
+.net-pill {
+  fill: var(--bg-2);
+  stroke: rgba(156, 84, 0, 0.35);
+  stroke-width: 1.5;
+}
+.net-word {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 600;
+  fill: var(--text);
+}
+.net-tag {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  fill: var(--accent-ink);
+}
+.net-biz-mark {
+  font-family: var(--font-display);
+  font-size: 46px;
+  font-weight: 700;
+}
+.net-p { fill: var(--orange); }
+.net-c { fill: var(--gold); }
+
 /* ===== 404 ===== */
 .not-found { min-height: 78vh; }
 .not-found-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }

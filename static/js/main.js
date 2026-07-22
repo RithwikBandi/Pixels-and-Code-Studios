@@ -647,6 +647,49 @@
     });
   }
 
+  /* ---------- neural network: edges draw in, pulses flow ---------- */
+  var netSvg = document.querySelector('.network-svg');
+  if (netSvg) {
+    var netEdges = netSvg.querySelectorAll('.net-edge');
+    netEdges.forEach(function (edge) {
+      var len = edge.getTotalLength();
+      gsap.set(edge, { strokeDasharray: len, strokeDashoffset: len });
+    });
+    gsap.to(netEdges, {
+      strokeDashoffset: 0,
+      ease: 'none',
+      stagger: 0.015,
+      scrollTrigger: { trigger: '.network-wrap', start: 'top 85%', end: 'center 50%', scrub: true }
+    });
+    gsap.from(netSvg.querySelectorAll('.net-node'), {
+      opacity: 0,
+      scale: 0.6,
+      transformOrigin: '50% 50%',
+      duration: 0.6,
+      ease: 'back.out(1.6)',
+      stagger: 0.06,
+      scrollTrigger: { trigger: '.network-wrap', start: 'top 80%' }
+    });
+    // energy pulses: short glowing dashes travelling along each connection
+    var pulses = netSvg.querySelectorAll('.net-pulse');
+    pulses.forEach(function (pulse, i) {
+      var len = pulse.getTotalLength();
+      gsap.set(pulse, { strokeDasharray: '16 ' + len, strokeDashoffset: 16 });
+      gsap.to(pulse, {
+        strokeDashoffset: -len,
+        duration: 2.4 + (i % 5) * 0.5,
+        ease: 'none',
+        repeat: -1,
+        delay: (i % 7) * 0.4
+      });
+    });
+    gsap.to(pulses, {
+      opacity: 0.9,
+      duration: 0.8,
+      scrollTrigger: { trigger: '.network-wrap', start: 'top 55%' }
+    });
+  }
+
   /* ---------- CTA ---------- */
   if (document.querySelector('.cta')) {
     gsap.from('.cta-title .ch', {
